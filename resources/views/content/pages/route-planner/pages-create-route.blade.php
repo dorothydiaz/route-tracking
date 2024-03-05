@@ -124,7 +124,6 @@
         var end; // end place
         var waypoint = []; // array for holding places objects of each travel stopping point (between start and stop)
 
-        // https://developers.google.com/maps/documentation/javascript/directions#waypoint-limits
         var MAX_WAYPOINTS = 25; // max number of waypoints allowed by API (25 max as of Jan 27, 2020)
 
         document.getElementById("loc2").placeholder =
@@ -234,7 +233,6 @@
             }));
 
             // console.log("***calculating route");
-            // https://developers.google.com/maps/documentation/javascript/directions
             const request = {
                 origin: start.geometry.location, //latlng object
                 destination: end.geometry.location,
@@ -336,12 +334,6 @@
             toggleSearchBoxes(true); // enable searchboxes
         }
 
-        /**
-         * given a google placeId, convert it to a place object and pass it to the provided callback.
-         * returns a promise.
-         * based on https://developers.google.com/maps/documentation/javascript/examples/geocoding-place-id#maps_geocoding_place_id-javascript
-         *   and https://developers.google.com/maps/documentation/javascript/geocoding
-         */
         function expandPlaceId(geocoder, placeId, callback) {
             return geocoder
                 .geocode({
@@ -358,18 +350,6 @@
                     callback(res);
                 })
                 .catch((e) => console.error("Geocoder failed due to: " + e));
-
-            // note that the result won't have the 'name' field
-            // we could lookup the 'name' for this place with an additional API call, but not sure its worth it:
-            // or we could store the lat/lng in the URL instead so we can just query the places API below (skipping the geocode step)
-            /*
-            // https://developers.google.com/maps/documentation/javascript/reference/places-service#PlacesService.findPlaceFromQuery
-            request = { query: queryParams.get('start'), fields: ['geometry.location', 'name', 'formatted_address'] };
-            placesService.findPlaceFromQuery(request, function(result, status) {
-                console.log('result = '); console.log(result);
-                console.log('status='); console.log(status);
-            });
-            */
         }
 
         /**
@@ -444,7 +424,7 @@
                     "'>" +
                     placeName +
                     "</span><a href='javascript:void(0)' onclick='deletePoint(this)'><img src='{{ asset('assets/img/customs/delete.png') }}' height='10' hspace='10'></a>\
-                                  <a href='javascript:void(0)'>"; // [X]
+                                      <a href='javascript:void(0)'>"; // [X]
                 //            console.log("waypoint=" + waypoint + '\n');
                 calcRoute();
             } else {
@@ -555,6 +535,19 @@
 
         // AJAX request to save route data
         function saveRouteToDatabase(routeName, start, end, waypoints) {
+
+
+            if (waypoints.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'No Waypoints Entered',
+                    text: 'Please enter at least one waypoint.',
+                    showConfirmButton: false,
+                    timer: 1500 // Close the modal after 1.5 seconds
+                });
+                return; // Exit the function if no waypoints are entered
+            }
+
             $.ajax({
                 url: '/save-route',
                 type: 'POST',
@@ -572,6 +565,11 @@
                         showConfirmButton: false,
                         timer: 1500 // Close the modal after 1.5 seconds
                     });
+
+                    // Reload the form after successful route save
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1500); // Reload the page after 1.5 seconds
                 },
                 error: function(response) {
                     Swal.fire({
@@ -580,6 +578,11 @@
                         showConfirmButton: false,
                         timer: 1500 // Close the modal after 1.5 seconds
                     });
+
+                    // Reload the form after successful route save
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1500); // Reload the page after 1.5 seconds
                 }
             });
         }

@@ -43,6 +43,7 @@ Route::middleware([
   });
   Route::post('/save-route', [LMSG44RouteController::class, 'saveRoute']);
   Route::get('/show-routes', [LMSG44RouteController::class, 'showRoutes']);
+  Route::get('/get-routes', [LMSG44RouteController::class, 'getRoutesData']);
 
   Route::resources([
     'roles' => RoleController::class,

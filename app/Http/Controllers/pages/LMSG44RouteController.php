@@ -8,6 +8,12 @@ use App\Http\Controllers\Controller;
 
 class LMSG44RouteController extends Controller
 {
+  public function getRoutesData()
+  {
+    $routes = LmsG44Route::all();
+    return response()->json($routes, 200);
+  }
+
   public function showRoutes()
   {
     $routes = LmsG44Route::paginate(5);

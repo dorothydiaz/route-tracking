@@ -1,0 +1,54 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Home",
+      "icon": "menu-icon tf-icons ti ti-smart-home",
+      "slug": "pages-home"
+    },
+    {
+      "name": "Route Planner",
+      "icon": "menu-icon tf-icons ti ti-notebook",
+      "slug": "route-planner",
+      "submenu": [
+        {
+          "url": "create-route",
+          "icon": "menu-icon tf-icons ti ti-pencil-plus",
+          "name": "Create Route",
+          "slug": "route-planner/pages-create-route"
+        },
+        {
+          "url": "show-routes",
+          "name": "Optimized Routes",
+          "icon": "menu-icon tf-icons ti ti-route",
+          "slug": "route-planner/pages-optimized-routes"
+        }
+      ]
+    },
+    {
+      "url": "track-vehicles",
+      "icon": "menu-icon tf-icons ti ti-gps",
+      "name": "Track Vehicles",
+      "slug": "pages-track-vehicles"
+    },
+    {
+      "name": "Settings",
+      "icon": "menu-icon tf-icons ti ti-settings",
+      "slug": "route-optimization",
+      "submenu": [
+        {
+          "url": "roles",
+          "name": "Manage Roles",
+          "icon": "menu-icon tf-icons ti ti-user-shield",
+          "slug": "roles"
+        },
+        {
+          "url": "users",
+          "name": "Manage Users",
+          "icon": "menu-icon tf-icons ti ti-user-cog",
+          "slug": "users"
+        }
+      ]
+    }
+  ]
+}
